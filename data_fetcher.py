@@ -4,46 +4,46 @@ from bs4 import BeautifulSoup
 
 def get_shikiho_data(company_name):
     """
-    四季報データをスクレイピングして取得します（仮想例）。
+    Scrape and obtain Shikiho data (hypothetical example).
     """
     try:
-        # 実際に会社名をURLに組み込む方法（例としてトヨケイサイト）
+        # Incorporate the company name into the URL (example for Toyo Keizai site)
         url = f"https://shikiho.toyokeizai.net/us/{company_name.replace(' ', '+')}"
         response = requests.get(url)
 
-        # HTTPステータスコードの確認
+        # Check HTTP status code
         if response.status_code != 200:
-            print(f"四季報データ取得失敗: HTTP {response.status_code}")
+            print(f"Failed to obtain Shikiho data: HTTP {response.status_code}")
             return None
 
-        # BeautifulSoupでHTML解析
+        # Parse HTML with BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # デバッグ用にHTML保存
+        # Save HTML for debugging
         with open("shikiho_debug.html", "w", encoding="utf-8") as f:
             f.write(soup.prettify())
 
-        # 必要なデータを抽出
+        # Extract necessary data
         growth = soup.find("div", {"id": "growth"})
         profit_margin = soup.find("div", {"id": "profit_margin"})
 
-        # Noneチェック
+        # Check for None
         if not growth:
-            print(f"'{company_name}' の成長率が見つかりませんでした。")
+            print(f"Growth rate for '{company_name}' not found.")
         if not profit_margin:
-            print(f"'{company_name}' の利益率が見つかりませんでした。")
+            print(f"Profit margin for '{company_name}' not found.")
 
         if not profit_margin:
-            print(f"'{company_name}' の利益率が見つかりませんでした。")
+            print(f"Profit margin for '{company_name}' not found.")
             return None
 
     except Exception as e:
-        print(f"四季報データ取得中にエラー: {e}")
+        print(f"Error obtaining Shikiho data: {e}")
         return None
 
 def get_stock_data(ticker):
     """
-    株の基本的な情報を取得します。
+    Obtain basic stock information.
     """
     try:
         stock = yf.Ticker(ticker)
@@ -54,17 +54,17 @@ def get_stock_data(ticker):
             "price": stock_info.get("currentPrice", "N/A")
         }
     except Exception as e:
-        print(f"株データ取得中にエラー：{e}")
+        print(f"Error obtaining stock data: {e}")
         return None
     
 if __name__ == "__main__":
     company_name = "Consolidated Edison"
-    print(f"'{company_name}' の四季報データを取得します...")
+    print(f"Obtaining Shikiho data for '{company_name}'...")
 
     shikiho_data = get_shikiho_data(company_name)
     if shikiho_data:
-        print("取得した四季報データ:")
+        print("Obtained Shikiho data:")
         for key, value in shikiho_data.items():
             print(f"{key}: {value}")
     else:
-        print("四季報データを取得できませんでした。")
+        print("Failed to obtain Shikiho data.")

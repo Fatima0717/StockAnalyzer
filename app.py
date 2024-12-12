@@ -1,14 +1,14 @@
 import pandas as pd
 
 def main():
-    # サンプルデータを作成
+    # create sample data
     data = {
         'Company': ['Company A', 'Company B', 'Company C'],
         'Price': [100, 200, 300]
     }
     df = pd.DataFrame(data)
     
-    # データを表示
+    # Display data
     print("Stock Data:")
     print(df)
 

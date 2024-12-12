@@ -2,47 +2,47 @@ from data_fetcher import get_stock_data, get_popularity, get_sector_growth, get_
 from evaluator import evaluate_stock
 
 while True:
-    ticker = input("ティッカーシンボルを入力してください（例：ED) :")
+    ticker = input("Please enter the ticker symbol (e.g., ED): ")
     data = get_stock_data(ticker)
     
     if data:
-        # 基本情報を表示
-        print("\n取得したデータ:")
+        # Display basic information
+        print("\nRetrieved data:")
         for key, value in data.items():
             print(f"{key}: {value}")
         
-        # 人気度を取得
-        company_name = data.get("name", ticker)  # 企業名がなければティッカーを利用
+        # Get popularity
+        company_name = data.get("name", ticker)  # Use ticker if company name is not available
         popularity = get_popularity(company_name)
-        print(f"\n人気度: {popularity}")
+        print(f"\nPopularity: {popularity}")
 
-        # 業界成長率を取得
+        # Get industry growth rate
         sector = data.get("sector", "Unknown")
         sector_growth = get_sector_growth(sector)
-        print(f"業界（{sector}）の成長率: {sector_growth}%")
+        print(f"Industry ({sector}) growth rate: {sector_growth}%")
 
-        # 四季報データを取得
+        # Get Shikiho data
         shikiho_data = get_shikiho_data(company_name)
         if shikiho_data:
-            print("\n四季報データ:")
+            print("\nShikiho data:")
             for key, value in shikiho_data.items():
                 print(f"{key}: {value}")
         else:
-            print("\n四季報データを取得できませんでした。")
+            print("\nFailed to retrieve Shikiho data.")
 
-        # 評価ロジックを実行
-        print("\n評価結果:")
+        # Execute evaluation logic
+        print("\nEvaluation result:")
         result = evaluate_stock(data, popularity, sector_growth, shikiho_data)
-        print(f"スコア: {result['score']}")
-        print(f"ランク: {result['rank']}")
-        print("詳細:")
+        print(f"Score: {result['score']}")
+        print(f"Rank: {result['rank']}")
+        print("Details:")
         for detail in result["details"]:
             print(f" - {detail}")
         
-        break # ループを終了
+        break # Exit the loop
     else:
-        print("無効なティッカーシンボルです。再度入力してください。")
+        print("Invalid ticker symbol. Please try again.")
     
-    # エラー処理
+    # Error handling
     if not data:
-        print("無効なティッカーシンボルです。再度入力してください。")
+        print("Invalid ticker symbol. Please try again.")
