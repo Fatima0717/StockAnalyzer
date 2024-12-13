@@ -1,5 +1,6 @@
 from data_fetcher import get_stock_data, get_popularity, get_sector_growth, get_shikiho_data
 from evaluator import evaluate_stock
+from shikiho_parser import parse_shikiho_html
 
 while True:
     ticker = input("Please enter the ticker symbol (e.g., ED): ")
@@ -22,8 +23,9 @@ while True:
         print(f"Industry ({sector}) growth rate: {sector_growth}%")
 
         # Get Shikiho data
-        shikiho_data = get_shikiho_data(company_name)
-        if shikiho_data:
+        shikiho_html = get_shikiho_data(company_name)
+        if shikiho_html:
+            shikiho_data = parse_shikiho_html(shikiho_html)
             print("\nShikiho data:")
             for key, value in shikiho_data.items():
                 print(f"{key}: {value}")
