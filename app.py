@@ -19,7 +19,9 @@ def main():
     companies = {
         'Tesla': 'TSLA',
         'Microsoft': 'MSFT',
-        'Toyota': 'TM'
+        'Toyota': 'TM',
+        'Nestlé': 'NESN.SW',
+        'Coca-Cola': 'KO'
     }
     
     # Fetch stock prices
